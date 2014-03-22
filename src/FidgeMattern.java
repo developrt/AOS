@@ -7,19 +7,18 @@ Purpose: Advanced Operating Systems - project 1
 import java.util.*;
 import java.net.*;
 import java.io.*;
-
+/* Class that accepts system messages and application messages from other nodes*/
 public class FidgeMattern extends Thread{
 
 	private ServerSocket LocServersock;
 	 vector_clock local;
-	 
-
 	
 	public FidgeMattern(int port, int n, int id) throws IOException
 		{
 		LocServersock = new ServerSocket(port);
 		local = new vector_clock(n,id);
 		}
+	/* Thread that accepts connections on this node and updates vector clock */
 	
 	public void run(){
 		int counter = 0;
@@ -72,33 +71,26 @@ public class FidgeMattern extends Thread{
 	}
 	
 	
-	
 	public static void main(String [] args){
 		int num_nodes = 0;
 		HashMap<String,nodein> nodes = new HashMap<String,nodein>();
 		int my_id;
 		my_id = Integer.parseInt(args[0]);
-		//System.out.println("I am at reading first line");
-		
 		try{
 			
 			Scanner rfile = new Scanner(new File("Config.txt"));
 			String rline;
 			int valcn = 0;
 			while(rfile.hasNextLine()){
-				// System.out.println("I am at reading first line");
 				
-				//	System.out.println("I am reading real line");
 					rline = rfile.nextLine();
 					if(rline.charAt(0) != '#'){
-						// System.out.println(rline.charAt(0));
+						
 						if (valcn == 0){
 							num_nodes = Character.getNumericValue(rline.charAt(0));
-							// System.out.println("" +rline.charAt(0));
 							System.out.println("Number of nodes = " +num_nodes);
 							valcn = 1;
 							rline = rfile.nextLine();
-							
 							}
 						String[] params = rline.split(" ");
 						System.out.println(" " +params[0] +" " +params[1] +" " +params[2]);
@@ -106,24 +98,18 @@ public class FidgeMattern extends Thread{
 						nodes.put(params[0],temp);
 					
 						}
-					
-				
 				}
+			/* Simultaneously running threads that accept  messages and send messages */
 			int port = Integer.parseInt(nodes.get(Integer.toString(my_id)).port);
 			FidgeMattern T1 = new FidgeMattern(port,num_nodes,my_id);
 			T1.start();
 			FidgeIntern T2 = new FidgeIntern(nodes,my_id);
 			T2.start();
-			
-			
-		
 			}
 		
 		catch (IOException e){
 			e.printStackTrace();
-			}
-		
-		
+			}	
 	}
 }
 
@@ -144,7 +130,7 @@ class nodein {
 		System.out.print(" " +this.id + " " +this.hostname + " " +this.port);
 	}
 }
-
+/* Class that controls the vector clock */
 class vector_clock{
 	public static int num_nodes;
 	public int id;
@@ -162,7 +148,7 @@ class vector_clock{
 	vector_clock(int[] c){
 		clock = c;
 	}
-	
+	/* Synchronized merge function that provides access to only one thread any time to modify the vector clock*/
 	public synchronized  void merge(int[] m){
 		for(int i=0;i<num_nodes;i++){
 			clock[i] = Math.max(this.clock[i], m[i]);
@@ -171,7 +157,7 @@ class vector_clock{
 		System.out.println("New clock value after reading the last arrived message: ");
 		vector_clock.printClock();
 	}
-	
+	/* Synchronized change function */
 	public synchronized static void change(int id){
 		clock[id] = clock[id] + 1;
 		System.out.println("Clock changed internally, new clock value:  ");
@@ -187,7 +173,7 @@ class vector_clock{
 		System.out.println();
 	}
 }
-
+/* Class that controls internal events, sends application messages and system messages*/
 class FidgeIntern extends Thread {
 	private Socket client;
 	String hostname;
@@ -200,8 +186,7 @@ class FidgeIntern extends Thread {
 		nodes = n;
 		this.id = id;
 		}
-	
-	
+	/*Thread that sends application and systme messages to other nodes */
 	public void run(){
 		int counter = 0;
 		int num_nodes = vector_clock.num_nodes;
