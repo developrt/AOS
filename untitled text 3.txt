@@ -1,7 +1,0 @@
-ByteArrayOutputStream bs = new ByteArrayOutputStream();
-      ObjectOutputStream os = new ObjectOutputStream(bs);
-      os.writeObject(myMessageArray);
-      byte[] messageArrayBytes = bs.toByteArray();
-      s.getOutputStream().write(messageArrayBytes);
-      s.getOutputStream().flush();
-      

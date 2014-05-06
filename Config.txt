@@ -1,6 +1,0 @@
-5
-0 net39.utdallas.edu 53390 # Host name and port number of node 0
-1 net40.utdallas.edu 53345 # Host name and port number of node 1
-2 net41.utdallas.edu 53345 # Host name and port number of node 2
-3 net42.utdallas.edu 53345 # Host name and port number of node 3
-4 net43.utdallas.edu 53345 # Host name and port number of node 4

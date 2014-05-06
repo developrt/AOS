@@ -1,3 +1,6 @@
-2
-0 localhost 5350
-1 localhost 5335
+5
+0 net15.utdallas.edu 9130
+1 net16.utdallas.edu 9131
+2 net17.utdallas.edu 9132
+3 net18.utdallas.edu 9133
+4 net19.utdallas.edu 9134
