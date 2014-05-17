@@ -8,6 +8,5 @@
 5) Run the program from individual shells for each remote machine using the following command as an example.
 	ssh <userid>@<remotemachine_hostname> "cd <project_path>; java FidgeMattern <id>"
 	
-	eg: ssh rxk124430@net15.utdallas.edu "cd /home/004/r/rx/rxk124430/AOS/project1;java FidgeMattern 0"
 6) Repeat the procedure from seperate shells for seperate remote machines
 7) Program prints clock values and message interactions on the screen at every stage.
